@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^([^\.]+)?$ dispatcher.php?param=$1 [L]
