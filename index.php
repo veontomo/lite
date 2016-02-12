@@ -1,6 +1,7 @@
 <?php
 include 'src/Dispatcher.php';
 include 'src/View.php';
+include 'src/Redirect.php';
 
 $keyName = 'param';
 

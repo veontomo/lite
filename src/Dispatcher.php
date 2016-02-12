@@ -36,21 +36,18 @@ class Dispatcher{
 		$params = $this->split($paramStr, self::$URL_SEPARATOR);
 		if (count($params) == 0){
 			$this->renderDefault();
-		} else {
-			$firstParam = array_shift($params);
-			if (array_key_exists($firstParam, $this->_mapping)){
-				$className = $this->_mapping[$firstParam];
-				if (class_exists($className)){
-					$instance = new $className;
-					$instance->render($params);
-				} else {
-					echo $paramStr . " class $className DOES NOT exist!";
-				}
-			} else {
-				echo "value for the key $firstParam does not exist";
+			return;
+		}
+		$firstParam = array_shift($params);
+		if (array_key_exists($firstParam, $this->_mapping)){
+			$className = $this->_mapping[$firstParam];
+			if (class_exists($className)){
+				$instance = new $className;
+				$instance->render($params);
+				return;
 			}
 		}
-
+		$this->renderDefault();
 	}
 
 
@@ -71,6 +68,11 @@ class Dispatcher{
 	 */
 	private function split($str, $delimiter){
 		return is_string($str) ? explode($delimiter, $str) : [];
+	}
+
+
+	private function renderDefault(){
+		echo "default page";
 	}
 
 }
