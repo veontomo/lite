@@ -1,7 +1,6 @@
 <?php
-namespace AdvLite;
-
 include 'src/Dispatcher.php';
+include 'src/View.php';
 
 $keyName = 'param';
 

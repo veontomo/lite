@@ -1,5 +1,4 @@
 <?php
-namespace AdvLite;
 
 class Dispatcher{
 	/**
@@ -21,7 +20,7 @@ class Dispatcher{
 	 */
 	private $_mappings;
 
-	// private static URL_SEPARATOR = '/';
+	private static $URL_SEPARATOR = '/';
 
 
 	public function __construct($mapping) {
@@ -34,11 +33,22 @@ class Dispatcher{
 	 * @param String $paramStr a string that was provided as a parameter
 	 */
 	public function dispatchBy($paramStr){
-		$className = 'Image';
-		if (class_exists($className)){
-			echo $paramStr . " class $className exists!";
+		$params = $this->split($paramStr, self::$URL_SEPARATOR);
+		if (count($params) == 0){
+			$this->renderDefault();
 		} else {
-			echo $paramStr . " class $className DOES NOT exist!";
+			$firstParam = array_shift($params);
+			if (array_key_exists($firstParam, $this->_mapping)){
+				$className = $this->_mapping[$firstParam];
+				if (class_exists($className)){
+					$instance = new $className;
+					$instance->render($params);
+				} else {
+					echo $paramStr . " class $className DOES NOT exist!";
+				}
+			} else {
+				echo "value for the key $firstParam does not exist";
+			}
 		}
 
 	}
@@ -51,6 +61,16 @@ class Dispatcher{
 	public function render404($params){
 		echo "page not found";
 		echo var_dump($params);
+	}
+
+	/**
+	 * Splits the string by delimiter.
+	 * @param  String $str       string to split
+	 * @param  String $delimiter string by which to split $str
+	 * @return array
+	 */
+	private function split($str, $delimiter){
+		return is_string($str) ? explode($delimiter, $str) : [];
 	}
 
 }
