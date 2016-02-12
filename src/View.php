@@ -11,27 +11,59 @@ class View {
 	 */
 	private $_imageDirectory;
 
+	/**
+	 * the resource requested by the visitor
+	 * @var string
+	 */
+	private $_resource;
+
+	/**
+	 * visitor's tracking code
+	 * @var string
+	 */
+	private $_trackCode;
+
 	public function __construct(){
 		$this->_imageDirectory = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
 	}
 
-
-	public function render($arr){
+	/**
+	 * Calculates the tracking code, the requested resource and the redirect url
+	 * @param  Array $arr [description]
+	 */
+	private function dispatch($arr){
 		// if the path contains three elements and more, then the second one from the end
 		// is a tracking code
-		if (count($arr) > 2){
-			$trackCode = array_splice($arr, -2, 1);
+		$separator = DIRECTORY_SEPARATOR;
+		$size = count($arr);
+		if ($size > 2){
+			$this->_trackCode = $arr[$size - 2];
+			// do not take into consideration the second element from the end
+			$this->_resource = implode($separator, array_slice($arr, 0, -2)) . $separator . $arr[$size - 1];
+		} else {
+			$this->_resource = implode($separator, $arr);
+		}
+
+
+	}
+
+
+
+	public function render($arr){
+		$this->dispatch($arr);
+		// if the path contains three elements and more, then the second one from the end
+		// is a tracking code
+		if (isset($this->_trackCode)){
 			$visitor = new Visitor();
-			$visitor->trackCode = $trackCode[0];
-			$visitor->resource = implode('/', $arr);
+			$visitor->trackCode = $this->_trackCode;
+			$visitor->resource = $this->_resource;
 			$visitor->ip = $_SERVER['REMOTE_ADDR'];
 			$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
 			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
-			$visitor->redirectTo = '';
+			$visitor->redirectTo = null;
 			$visitor->store();
 		}
 		$this->renderJPG(implode(DIRECTORY_SEPARATOR, $arr));
-
 	}
 
 	public function renderJPG($fileName){
