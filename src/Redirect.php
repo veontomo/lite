@@ -70,11 +70,11 @@ class Redirect {
 			$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
 			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 			$visitor->redirectTo = $this->_redirectTo;
-			$visitor->store('visitor');
+			$visitor->store();
 		}
 		if (isset($this->_redirectTo)){
-			// header('location: ' . $this->_redirectTo);
-			echo('location: ' . $this->_redirectTo);
+			header('location: ' . $this->_redirectTo);
+			// echo('location: ' . $this->_redirectTo);
 		} else {
 			echo "file not found";
 		}

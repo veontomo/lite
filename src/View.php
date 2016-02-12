@@ -28,11 +28,9 @@ class View {
 			$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
 			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 			$visitor->redirectTo = '';
-			$visitor->store('visitor');
+			$visitor->store();
 		}
-		 var_dump($arr);
-		 var_dump($_SERVER);
-		// $this->renderJPG(implode(DIRECTORY_SEPARATOR, $arr));
+		$this->renderJPG(implode(DIRECTORY_SEPARATOR, $arr));
 
 	}
 
