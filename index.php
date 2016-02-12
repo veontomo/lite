@@ -1,9 +1,14 @@
 <?php
+namespace AdvLite;
+
+include 'src/Dispatcher.php';
+
 $keyName = 'param';
+
+$dispatcher = new Dispatcher();
 if (array_key_exists($keyName, $_GET)){
-	$param = $_GET[$keyName];
-	echo $param;
+	$dispatcher->dispatchBy($_GET[$keyName]);
 } else {
-	echo 'page not found.';
+	$dispatcher->render404($_GET);
 }
 
