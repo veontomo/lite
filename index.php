@@ -2,6 +2,7 @@
 include 'src/Dispatcher.php';
 include 'src/View.php';
 include 'src/Redirect.php';
+include 'src/Visitor.php';
 
 $keyName = 'param';
 
