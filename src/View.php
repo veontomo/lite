@@ -29,7 +29,6 @@ class View {
 			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 			$visitor->redirectTo = '';
 			$visitor->store('visitor');
-
 		}
 		 var_dump($arr);
 		 var_dump($_SERVER);
