@@ -6,7 +6,7 @@ class Dispatcher{
 	 * Reference to a class that process the redirects
 	 * @var IRedirect
 	 */
-	private $_redirectProcessor;
+	private $_classMapping;
 
 	/**
 	 * Reference to a class that process the views
@@ -15,14 +15,32 @@ class Dispatcher{
 
 	private $_viewProcessor;
 
-	private static URL_SEPARATOR = '/';
+	/**
+	 * A hash map of redirections
+	 * @var associative array
+	 */
+	private $_mappings;
+
+	// private static URL_SEPARATOR = '/';
+
+
+	public function __construct($mapping) {
+		$this->_mapping = $mapping;
+   	}
+
 
 	/**
 	 * Decides what action should be performed based on the input argument
 	 * @param String $paramStr a string that was provided as a parameter
 	 */
 	public function dispatchBy($paramStr){
-		echo $paramStr;
+		$className = 'Image';
+		if (class_exists($className)){
+			echo $paramStr . " class $className exists!";
+		} else {
+			echo $paramStr . " class $className DOES NOT exist!";
+		}
+
 	}
 
 

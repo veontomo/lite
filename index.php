@@ -5,7 +5,10 @@ include 'src/Dispatcher.php';
 
 $keyName = 'param';
 
-$dispatcher = new Dispatcher();
+$mapping = array('images' => 'View', 'articles' => 'Redirect');
+
+$dispatcher = new Dispatcher($mapping);
+
 if (array_key_exists($keyName, $_GET)){
 	$dispatcher->dispatchBy($_GET[$keyName]);
 } else {
