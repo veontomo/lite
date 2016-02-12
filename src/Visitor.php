@@ -41,10 +41,27 @@ class Visitor {
 	private $connection;
 
 
-	public function store(){
+	public function store($tblName){
 		$dbConfig = require('dbconfig.php');
+		$tblNameClean = filter_var($tblName, FILTER_SANITIZE_STRING);
 		if ($this->connectToDb($dbConfig)){
-			echo "connected";
+			$query = "INSERT INTO $tblNameClean (ip, user_agent, resource, param, redirect, time, trackCode) VALUES (:ip, :user_agent, :resource, :param, :redirect, :time, :trackCode)";
+			$sth = $this->connection->prepare($query);
+			$sth->bindValue(':ip', $this->ip, PDO::PARAM_STR);
+			$sth->bindValue(':user_agent', $this->userAgent, PDO::PARAM_STR);
+			$sth->bindValue(':resource', $this->resource, PDO::PARAM_STR);
+			$sth->bindValue(':param', isset($this->param) ? $this->param : NULL, PDO::PARAM_STR);
+			$sth->bindValue(':redirect', $this->redirectTo, PDO::PARAM_STR);
+			$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
+			$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
+			if ($sth->execute()){
+				echo "inserted";
+			} else {
+				echo "not inserted";
+			}
+
+
+
 		} else {
 			echo "failed to connect";
 		}

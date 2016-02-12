@@ -22,13 +22,13 @@ class View {
 		if (count($arr) > 2){
 			$trackCode = array_splice($arr, -2, 1);
 			$visitor = new Visitor();
-			$visitor->trackCode = $trackCode;
-			$visitor->resource = $arr;
+			$visitor->trackCode = $trackCode[0];
+			$visitor->resource = implode('/', $arr);
 			$visitor->ip = $_SERVER['REMOTE_ADDR'];
 			$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
-			$visitor->time = $_SERVER['REQUEST_TIME'];
+			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
 			$visitor->redirectTo = '';
-			$visitor->store();
+			$visitor->store('visitor');
 
 		}
 		 var_dump($arr);
