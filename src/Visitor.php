@@ -51,7 +51,7 @@ class Visitor {
 
 	public function __construct(){
 		$this->_LOG_FILE_NAME = __DIR__ . DIRECTORY_SEPARATOR . 'advlite.log';
-		$this->logger = new Logger();
+		$this->_logger = new Logger();
 	}
 
 
@@ -69,13 +69,13 @@ class Visitor {
 				$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
 				$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
 				if (!$sth->execute()){
-					$_logger->logInfo( __METHOD__ , $sth->errorInfo());
+					$this->_logger->logInfo( __METHOD__ , $sth->errorInfo());
 				}
 			} catch (Exception $e) {
-				file_put_contents($this->_LOG_FILE_NAME, $e->getMessage());
+				$this->_logger->logException( __METHOD__ , $sth->errorInfo());
 			}
 		} else {
-			file_put_contents($this->_LOG_FILE_NAME, date('Y-m-d H:i:s ') . __METHOD__ . ": failed to connect to the database.\n");
+			$this->_logger->logInfo( __METHOD__ , 'failed to connect to the database.');
 		}
 
 
@@ -93,11 +93,11 @@ class Visitor {
 		try {
 			$this->connection = new PDO($config['dsn'], $config['userName'], $config['pswd']);
 			if (mysqli_connect_errno()){
-				file_put_contents($this->_LOG_FILE_NAME, mysqli_connect_error() . "\n");
+				$this->_logger->logInfo( __METHOD__ ,  mysqli_connect_error());
 				$this->connection = null;
 			}
 		} catch (PDOException $e){
-			file_put_contents($this->_LOG_FILE_NAME, $e->getMessage());
+			$this->_logger->logException( __METHOD__ , $e->getMessage());
 		}
 
 		return !($this->connection == null);

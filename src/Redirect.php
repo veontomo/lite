@@ -24,8 +24,11 @@ class Redirect {
 	 */
 	private $_trackCode;
 
+	private $_logger;
+
 	public function __construct(){
 		$this->_mappings = require('mappings.php');
+		$this->_logger = new Logger();
 	}
 
 
@@ -51,8 +54,6 @@ class Redirect {
 		}
 		if (array_key_exists($this->_resource, $this->_mappings)){
 			$this->_redirectTo = $this->_mappings[$this->_resource];
-		} else {
-			echo "no key {$this->_resource} in the mappings";
 		}
 
 	}
@@ -74,9 +75,8 @@ class Redirect {
 		}
 		if (isset($this->_redirectTo)){
 			header('location: ' . $this->_redirectTo);
-			// echo('location: ' . $this->_redirectTo);
 		} else {
-			echo "file not found";
+			$this->_logger->logInfo(__METHOD__, "there is no mapping for {$this->_resource}.");
 		}
 
 	}
