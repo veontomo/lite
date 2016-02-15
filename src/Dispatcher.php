@@ -57,7 +57,7 @@ class Dispatcher{
 	 */
 	public function render404($params){
 		echo "page not found";
-		echo var_dump($params);
+		// echo var_dump($params);
 	}
 
 	/**
