@@ -45,6 +45,9 @@ class Dispatcher{
 				$instance = new $className;
 				$instance->render($params);
 				return;
+			} else {
+				echo "<br>class $className DOES NOT exist<br>";
+				return;
 			}
 		}
 		$this->renderDefault();

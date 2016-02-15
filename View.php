@@ -24,7 +24,7 @@ class View {
 	private $_trackCode;
 
 	public function __construct(){
-		$this->_imageDirectory = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR;
+		$this->_imageDirectory = 'images' . DIRECTORY_SEPARATOR;
 	}
 
 	/**

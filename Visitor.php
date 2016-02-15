@@ -50,7 +50,7 @@ class Visitor {
 
 
 	public function __construct(){
-		$this->_LOG_FILE_NAME = __DIR__ . DIRECTORY_SEPARATOR . 'advlite.log';
+		$this->_LOG_FILE_NAME = 'advlite.log';
 		$this->_logger = new Logger();
 	}
 

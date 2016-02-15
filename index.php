@@ -5,7 +5,6 @@ include 'View.php';
 include 'Redirect.php';
 include 'Visitor.php';
 
-
 $keyName = 'param';
 
 $mapping = array('images' => 'View', 'articles' => 'Redirect');
