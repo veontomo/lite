@@ -20,7 +20,7 @@ class Dispatcher{
 	 */
 	private $_mappings;
 
-	private static $URL_SEPARATOR = '/';
+	private $_URL_SEPARATOR = '/';
 
 
 	public function __construct($mapping) {
@@ -33,7 +33,7 @@ class Dispatcher{
 	 * @param String $paramStr a string that was provided as a parameter
 	 */
 	public function dispatchBy($paramStr){
-		$params = $this->split($paramStr, self::$URL_SEPARATOR);
+		$params = $this->split($paramStr, $this->_URL_SEPARATOR);
 		if (count($params) == 0){
 			$this->renderDefault();
 			return;
@@ -67,7 +67,7 @@ class Dispatcher{
 	 * @return array
 	 */
 	private function split($str, $delimiter){
-		return is_string($str) ? explode($delimiter, $str) : [];
+		return is_string($str) ? explode($delimiter, $str) : array();
 	}
 
 

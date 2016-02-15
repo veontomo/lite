@@ -8,7 +8,7 @@ class Logger {
 	private $_fileName;
 
 	public function __construct(){
-		$this->_fileName = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'advlite.log';
+		$this->_fileName = __DIR__ . DIRECTORY_SEPARATOR . 'advlite.log';
 	}
 
 	private function log($level, $origin, $text){

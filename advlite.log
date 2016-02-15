@@ -1,0 +1,17 @@
+2016-02-12 16:15:00 Info Visitor::store failed to connect to the database.
+
+2016-02-12 16:16:12 Exception Visitor::connectToDb SQLSTATE[HY000] [2002] Impossibile stabilire la connessione. Rifiuto persistente del computer di destinazione.
+
+
+2016-02-12 16:16:12 Info Visitor::store failed to connect to the database.
+
+2016-02-12 16:16:16 Exception Visitor::connectToDb SQLSTATE[HY000] [2002] Impossibile stabilire la connessione. Rifiuto persistente del computer di destinazione.
+
+
+2016-02-12 16:16:16 Info Visitor::store failed to connect to the database.
+
+2016-02-12 16:19:47 Exception Visitor::connectToDb SQLSTATE[HY000] [2002] Impossibile stabilire la connessione. Rifiuto persistente del computer di destinazione.
+
+
+2016-02-12 16:19:47 Info Visitor::store failed to connect to the database.
+
