@@ -58,13 +58,12 @@ class Visitor {
 	public function store(){
 		$dbConfig = require('dbconfig.php');
 		if ($this->connectToDb($dbConfig)){
-			$query = "INSERT INTO visitor (ip, user_agent, resource, param, redirect, time, trackCode) VALUES (:ip, :user_agent, :resource, :param, :redirect, :time, :trackCode)";
+			$query = "INSERT INTO visitor (ip, user_agent, resource, redirect, time, trackCode) VALUES (:ip, :user_agent, :resource, :redirect, :time, :trackCode)";
 			try {
 				$sth = $this->connection->prepare($query);
 				$sth->bindValue(':ip', $this->ip, PDO::PARAM_STR);
 				$sth->bindValue(':user_agent', $this->userAgent, PDO::PARAM_STR);
 				$sth->bindValue(':resource', $this->resource, PDO::PARAM_STR);
-				$sth->bindValue(':param', isset($this->param) ? $this->param : NULL, PDO::PARAM_STR);
 				$sth->bindValue(':redirect', $this->redirectTo, PDO::PARAM_STR);
 				$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
 				$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
