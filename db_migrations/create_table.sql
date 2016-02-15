@@ -2,7 +2,8 @@
 SQLyog Community v11.5 (64 bit)
 MySQL - 5.5.34 : Database - advlite
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -28,7 +29,7 @@ CREATE TABLE `visitor` (
   `param` tinytext COLLATE utf8_bin COMMENT 'parameters of the request',
   `redirect` tinytext COLLATE utf8_bin COMMENT 'url to which the user should be redirected',
   `time` datetime NOT NULL COMMENT 'time of the request',
-  `trackCode` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'visitor tracking code',
+  `trackCode` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'visitor tracking code',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

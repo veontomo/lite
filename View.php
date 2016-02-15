@@ -63,7 +63,7 @@ class View {
 			$visitor->redirectTo = null;
 			$visitor->store();
 		}
-		$this->renderJPG(implode(DIRECTORY_SEPARATOR, $arr));
+		$this->renderJPG($this->_resource);
 	}
 
 	public function renderJPG($fileName){
@@ -73,6 +73,6 @@ class View {
 			readfile($path);
 			exit();
 		}
-		echo "no file $path";
+		// echo "no file $path";
 	}
 }

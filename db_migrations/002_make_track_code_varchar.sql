@@ -1,0 +1,1 @@
+ALTER TABLE visitor MODIFY trackCode VARCHAR(255);

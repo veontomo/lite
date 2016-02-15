@@ -7,7 +7,7 @@ include 'Visitor.php';
 
 $keyName = 'param';
 
-$mapping = array('images' => 'View', 'articles' => 'Redirect');
+$mapping = array('images' => 'View', 'news' => 'Redirect');
 
 $dispatcher = new Dispatcher($mapping);
 if (array_key_exists($keyName, $_GET)){

@@ -70,12 +70,13 @@ class Dispatcher{
 	 * @return array
 	 */
 	private function split($str, $delimiter){
-		return is_string($str) ? explode($delimiter, $str) : array();
+		$result = is_string($str) ? explode($delimiter, $str) : array();
+		return $result;
 	}
 
 
 	private function renderDefault(){
-		echo "default page";
+		// echo "default page";
 	}
 
 }
