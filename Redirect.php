@@ -61,8 +61,6 @@ class Redirect {
 
 	public function render($arr){
 		$this->dispatch($arr);
-		// if the path contains three elements and more, then the second one from the end
-		// is a tracking code
 		if (isset($this->_trackCode)){
 			$visitor = new Visitor();
 			$visitor->trackCode = $this->_trackCode;
