@@ -54,25 +54,59 @@ class Visitor {
 		$this->_logger = new Logger();
 	}
 
+	/**
+	 * Stores the visitor info (ip, user agent, requested resources, where the user has been redirected etc.)
+	 */
+	private function storeVisitor(){
+		$query = "INSERT INTO visitor (ip, user_agent, resource, redirect, time, trackCode) VALUES (:ip, :user_agent, :resource, :redirect, :time, :trackCode)";
+		try {
+			$sth = $this->connection->prepare($query);
+			$sth->bindValue(':ip', $this->ip, PDO::PARAM_STR);
+			$sth->bindValue(':user_agent', $this->userAgent, PDO::PARAM_STR);
+			$sth->bindValue(':resource', $this->resource, PDO::PARAM_STR);
+			$sth->bindValue(':redirect', $this->redirectTo, PDO::PARAM_STR);
+			$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
+			$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
+			if (!$sth->execute()){
+				$this->_logger->logInfo( __METHOD__ , $sth->errorInfo());
+			}
+		} catch (Exception $e) {
+			$this->_logger->logException( __METHOD__ , $sth->errorInfo());
+		}
+	}
+
+	private function updateStatistics(){
+		if (!$this->resource){
+			$this->_logger->logInfo(__METHOD__, "can not update the staictics since the resource is not set or is empty.");
+			return;
+		}
+
+		$campaignName = explode('/', $this->resource)[0];
+		$this->initializeStatistics($campaignName);
+
+	}
+
+
+	/**
+	 * Tries to create a record corresponding to a given campaign.
+	 * If it already exists, no new record is added (since the column "campaign_name" is indexed as UNIQUE).
+	 * @param  String $campaign  campaign name
+	 */
+	private function initializeStatistics($campaign){
+		$query = 'INSERT INTO statistics (campaign_name) VALUES (:campaignName)';
+		$sth = $this->connection->prepare($query);
+		$sth->bindValue(':campaignName', $campaign);
+
+			$sth->execute();
+
+	}
+
 
 	public function store(){
 		$dbConfig = require('dbconfig.php');
 		if ($this->connectToDb($dbConfig)){
-			$query = "INSERT INTO visitor (ip, user_agent, resource, redirect, time, trackCode) VALUES (:ip, :user_agent, :resource, :redirect, :time, :trackCode)";
-			try {
-				$sth = $this->connection->prepare($query);
-				$sth->bindValue(':ip', $this->ip, PDO::PARAM_STR);
-				$sth->bindValue(':user_agent', $this->userAgent, PDO::PARAM_STR);
-				$sth->bindValue(':resource', $this->resource, PDO::PARAM_STR);
-				$sth->bindValue(':redirect', $this->redirectTo, PDO::PARAM_STR);
-				$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
-				$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
-				if (!$sth->execute()){
-					$this->_logger->logInfo( __METHOD__ , $sth->errorInfo());
-				}
-			} catch (Exception $e) {
-				$this->_logger->logException( __METHOD__ , $sth->errorInfo());
-			}
+			$this->storeVisitor();
+			$this->updateStatistics();
 		} else {
 			$this->_logger->logInfo( __METHOD__ , 'failed to connect to the database.');
 		}

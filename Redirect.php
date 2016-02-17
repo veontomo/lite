@@ -59,18 +59,23 @@ class Redirect {
 	}
 
 
+	/**
+	 * Renders a page based on input array.
+	 *
+	 * Stores all the requests.
+	 * @param  Array $arr array of strings corresponding to requested resourses
+	 */
 	public function render($arr){
 		$this->dispatch($arr);
-		if (isset($this->_trackCode)){
-			$visitor = new Visitor();
-			$visitor->trackCode = $this->_trackCode;
-			$visitor->resource = $this->_resource;
-			$visitor->ip = $_SERVER['REMOTE_ADDR'];
-			$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
-			$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
-			$visitor->redirectTo = $this->_redirectTo;
-			$visitor->store();
-		}
+		$visitor = new Visitor();
+		$visitor->trackCode = isset($this->_trackCode) ? $this->_trackCode : null;
+		$visitor->resource = $this->_resource;
+		$visitor->ip = $_SERVER['REMOTE_ADDR'];
+		$visitor->userAgent = $_SERVER['HTTP_USER_AGENT'];
+		$visitor->time = date('Y-m-d H:i:s', $_SERVER['REQUEST_TIME']);
+		$visitor->redirectTo = $this->_redirectTo;
+		$visitor->store();
+
 		if (isset($this->_redirectTo)){
 			header('location: ' . $this->_redirectTo);
 		} else {

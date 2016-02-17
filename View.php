@@ -34,7 +34,7 @@ class View {
 	private function dispatch($arr){
 		// if the path contains three elements and more, then the second one from the end
 		// is a tracking code
-		$separator = DIRECTORY_SEPARATOR;
+		$separator = '/';
 		$size = count($arr);
 		if ($size > 2){
 			$this->_trackCode = $arr[$size - 2];
@@ -67,7 +67,8 @@ class View {
 	}
 
 	public function renderJPG($fileName){
-		$path = $this->_imageDirectory . $fileName;
+		$fileName2 = str_replace('/', DIRECTORY_SEPARATOR, $fileName);
+		$path = $this->_imageDirectory . $fileName2;
 		if (file_exists($path)){
 			header('Content-type: image/jpeg');
 			readfile($path);
