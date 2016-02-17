@@ -83,7 +83,18 @@ class Visitor {
 
 		$campaignName = explode('/', $this->resource)[0];
 		$this->initializeStatistics($campaignName);
-
+		if ($this->redirectTo){
+			$query = 'UPDATE statistics SET redirects = redirects + 1 WHERE campaign_name = :name';
+		} else {
+			$query = 'UPDATE statistics SET views = views + 1 WHERE campaign_name = :name';
+		}
+		try {
+			$sth = $this->connection->prepare($query);
+			$sth->bindValue(':name', $campaignName);
+			$sth->execute();
+		} catch (Excception $e){
+			$this->_logger->logException(__METHOD__, 'failed to update the statistics table: ' . $e->getMessage());
+		}
 	}
 
 
@@ -94,11 +105,13 @@ class Visitor {
 	 */
 	private function initializeStatistics($campaign){
 		$query = 'INSERT INTO statistics (campaign_name) VALUES (:campaignName)';
-		$sth = $this->connection->prepare($query);
-		$sth->bindValue(':campaignName', $campaign);
-
+		try {
+			$sth = $this->connection->prepare($query);
+			$sth->bindValue(':campaignName', $campaign);
 			$sth->execute();
-
+		} catch (Excception $e){
+			$this->_logger->logException(__METHOD__, 'failed to initialize the statitics table: ' . $e->getMessage());
+		}
 	}
 
 
