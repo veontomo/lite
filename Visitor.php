@@ -75,29 +75,6 @@ class Visitor {
 		}
 	}
 
-	private function updateStatistics(){
-		if (!$this->resource){
-			$this->_logger->logInfo(__METHOD__, "can not update the staictics since the resource is not set or is empty.");
-			return;
-		}
-
-		$campaignName = explode('/', $this->resource)[0];
-		$this->initializeStatistics($campaignName);
-		if ($this->redirectTo){
-			$query = 'UPDATE statistics SET redirects = redirects + 1 WHERE campaign_name = :name';
-		} else {
-			$query = 'UPDATE statistics SET views = views + 1 WHERE campaign_name = :name';
-		}
-		try {
-			$sth = $this->connection->prepare($query);
-			$sth->bindValue(':name', $campaignName);
-			$sth->execute();
-		} catch (Excception $e){
-			$this->_logger->logException(__METHOD__, 'failed to update the statistics table: ' . $e->getMessage());
-		}
-	}
-
-
 	/**
 	 * Tries to create a record corresponding to a given campaign.
 	 * If it already exists, no new record is added (since the column "campaign_name" is indexed as UNIQUE).
@@ -109,17 +86,43 @@ class Visitor {
 			$sth = $this->connection->prepare($query);
 			$sth->bindValue(':campaignName', $campaign);
 			$sth->execute();
-		} catch (Excception $e){
+		} catch (Exception $e){
 			$this->_logger->logException(__METHOD__, 'failed to initialize the statitics table: ' . $e->getMessage());
 		}
 	}
+
+	private function updateStatistics(){
+		if (!$this->resource){
+			$this->_logger->logInfo(__METHOD__, "can not update the staictics since the resource is not set or is empty.");
+			return;
+		}
+
+		$elems = explode('/', $this->resource);
+		$campaignName = $elems[0];
+		$this->initializeStatistics($campaignName);
+	// 	if ($this->redirectTo){
+	// 		$query = 'UPDATE statistics SET redirects = redirects + 1 WHERE campaign_name = :name';
+	// 	} else {
+	// 		$query = 'UPDATE statistics SET views = views + 1 WHERE campaign_name = :name';
+	// 	}
+	// 	try {
+	// 		$sth = $this->connection->prepare($query);
+	// 		$sth->bindValue(':name', $campaignName);
+	// 		$sth->execute();
+	// 	} catch (Exception $e){
+	// 		$this->_logger->logException(__METHOD__, 'failed to update the statistics table: ' . $e->getMessage());
+	// 	}
+	}
+
+
+
 
 
 	public function store(){
 		$dbConfig = require('dbconfig.php');
 		if ($this->connectToDb($dbConfig)){
 			$this->storeVisitor();
-			$this->updateStatistics();
+			// $this->updateStatistics();
 		} else {
 			$this->_logger->logInfo( __METHOD__ , 'failed to connect to the database.');
 		}
