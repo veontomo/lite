@@ -1,3 +1,4 @@
 mappings.php
 dbconfig.php
 *.log
+iis_settings/

@@ -92,7 +92,7 @@ class Visitor {
 		try {
 			$sth = $this->connection->prepare($query);
 			$sth->bindValue(':name', $campaignName);
-			if ($sth->execute()){
+			if (!$sth->execute()){
 				$this->_logger->logInfo(__METHOD__, "failed to save the statistics of campaign $campaignName.");
 			}
 		} catch (Exception $e){

@@ -1,5 +1,4 @@
 <?php
-
 include 'Dispatcher.php';
 include 'View.php';
 include 'Redirect.php';

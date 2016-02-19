@@ -66,6 +66,7 @@ class Redirect {
 	 * @param  Array $arr array of strings corresponding to requested resourses
 	 */
 	public function render($arr){
+
 		$this->dispatch($arr);
 		$visitor = new Visitor();
 		$visitor->trackCode = isset($this->_trackCode) ? $this->_trackCode : null;
