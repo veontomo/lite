@@ -68,10 +68,10 @@ class Visitor {
 			$sth->bindValue(':time', $this->time, PDO::PARAM_STR);
 			$sth->bindValue(':trackCode', $this->trackCode, PDO::PARAM_STR);
 			if (!$sth->execute()){
-				$this->_logger->logInfo( __METHOD__ , implode(" ", $sth->errorInfo()));
+				$this->_logger->logInfo( __METHOD__ , $sth->errorInfo());
 			}
 		} catch (Exception $e) {
-			$this->_logger->logException( __METHOD__ , $e->getMessage());
+			$this->_logger->logException( __METHOD__ , $sth->errorInfo());
 		}
 	}
 

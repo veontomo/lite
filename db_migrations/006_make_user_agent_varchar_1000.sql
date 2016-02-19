@@ -1,0 +1,1 @@
+ALTER TABLE visitor MODIFY user_agent VARCHAR(1000);
