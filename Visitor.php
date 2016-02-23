@@ -77,7 +77,7 @@ class Visitor {
 
 	private function updateStatistics(){
 		if (!$this->resource){
-			$this->_logger->logInfo(__METHOD__, "can not update the staictics since the resource is not set or is empty.");
+			$this->_logger->logInfo(__METHOD__, "can not update the statistics since the resource is not set or is empty.");
 			return;
 		}
 
