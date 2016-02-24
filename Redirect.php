@@ -19,6 +19,12 @@ class Redirect {
 	private $_resource;
 
 	/**
+	 * Array of parameters to pass to the url to which it should be redirected
+	 * @var Array
+	 */
+	private $_params;
+
+	/**
 	 * visitor's tracking code
 	 * @var string
 	 */
@@ -42,16 +48,23 @@ class Redirect {
 	 * @param  Array $arr [description]
 	 */
 	private function dispatch($arr){
-		// if the path contains three elements and more, then the second one from the end
-		// is a tracking code
+		// Format: campaign-name/target
+		//         campaign-name/target/trackCode
+		//         campaign-name/target/trackCode/param1
+		//         campaign-name/target/trackCode/param1/param2/
 		$separator = '/';
 		$size = count($arr);
-		if ($size > 2){
-			$this->_trackCode = $arr[$size - 1];
-			$this->_resource = implode($separator, array_slice($arr, 0, -1));
-		} else {
-			$this->_resource = implode($separator, array_slice($arr, 0));
+		if ($size > 1){
+			$this->_resource = implode($separator, array_slice($arr, 0, 2));
 		}
+		if ($size > 2){
+			$this->_trackCode = $arr[2];
+
+		}
+		if ($size > 3) {
+			$this->_params = array_slice($arr, 3);
+		}
+
 		if (array_key_exists($this->_resource, $this->_mappings)){
 			$this->_redirectTo = $this->_mappings[$this->_resource];
 		}
@@ -66,7 +79,6 @@ class Redirect {
 	 * @param  Array $arr array of strings corresponding to requested resourses
 	 */
 	public function render($arr){
-
 		$this->dispatch($arr);
 		$visitor = new Visitor();
 		$visitor->trackCode = isset($this->_trackCode) ? $this->_trackCode : null;

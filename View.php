@@ -32,7 +32,7 @@ class View {
 	 * @param  Array $arr [description]
 	 */
 	private function dispatch($arr){
-		// if the path contains three elements and more, then the second one from the end
+		// if the path contains three elements or more, then the second one from the end
 		// is a tracking code
 		$separator = '/';
 		$size = count($arr);

@@ -38,6 +38,7 @@ class Dispatcher{
 			$this->renderDefault();
 			return;
 		}
+
 		$firstParam = array_shift($params);
 		if (array_key_exists($firstParam, $this->_mapping)){
 			$className = $this->_mapping[$firstParam];

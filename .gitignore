@@ -1,4 +1,6 @@
 mappings.php
+images/
 dbconfig.php
 *.log
 iis_settings/
+*.html
