@@ -44,7 +44,7 @@ class Redirect {
 	}
 
 	/**
-	 * Calculates the tracking code, the requested resource and the redirect url
+	 * Calculates the tracking code, the requested resource and the redirect url (along with eventual parameters)
 	 * @param  Array $arr [description]
 	 */
 	private function dispatch($arr){
@@ -62,13 +62,19 @@ class Redirect {
 
 		}
 		if ($size > 3) {
-			$this->_params = array_slice($arr, 3);
+			$this->_params = array();
+			for ($i = 3; $i < $size; $i++){
+				$this->_params['$' . ($i - 2)] = $arr[$i];
+			}
 		}
 
 		if (array_key_exists($this->_resource, $this->_mappings)){
-			$this->_redirectTo = $this->_mappings[$this->_resource];
+			$rawUrl = $this->_mappings[$this->_resource];
+			if ($this->_params){
+				$rawUrl = str_replace(array_keys($this->_params), array_values($this->_params), $rawUrl);
+			}
+			$this->_redirectTo = $rawUrl;
 		}
-
 	}
 
 
