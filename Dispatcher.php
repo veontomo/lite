@@ -60,8 +60,7 @@ class Dispatcher{
 	 * @param Array $params list of parameters with which the resoure is requested
 	 */
 	public function render404($params){
-		echo "page not found";
-		// echo var_dump($params);
+		echo "Page not found";
 	}
 
 	/**
