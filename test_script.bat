@@ -1,0 +1,1 @@
+php test\phpunit-4.8.23.phar --bootstrap Dispatcher.php test\DispatcherTest.php
